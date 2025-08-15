@@ -33,10 +33,20 @@ const Calendar = ({ size = 24 }) => (
   </svg>
 );
 
-const Settings = ({ size = 24 }) => (
+const Target = ({ size = 24 }) => (
   <svg width={size} height={size} fill="currentColor" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="3"/>
-    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+    <circle cx="12" cy="12" r="10"/>
+    <circle cx="12" cy="12" r="6"/>
+    <circle cx="12" cy="12" r="2"/>
+  </svg>
+);
+
+const Users = ({ size = 24 }) => (
+  <svg width={size} height={size} fill="currentColor" viewBox="0 0 24 24">
+    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+    <circle cx="9" cy="7" r="4"/>
+    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
   </svg>
 );
 
@@ -45,21 +55,13 @@ const App = () => {
 
   const handleDownload = () => {
     setIsDownloading(true);
-    
     setTimeout(() => {
       const link = document.createElement('a');
-      // OPCIONES: Cambia por tu URL real
-      // GitHub Pages: 'https://tu-usuario.github.io/tu-repo/UTEQ-Map.apk'
-      // Netlify: 'https://tu-app.netlify.app/UTEQ-Map.apk'  
-      // Firebase: 'https://firebasestorage.googleapis.com/...'
-      // Google Drive: 'https://drive.google.com/uc?export=download&id=TU_FILE_ID'
-      link.href = './UTEQ-Map.apk'; // Ruta local para pruebas
+      link.href = './build/UTEQ-Map.apk';
       link.download = 'UTEQ-Map.apk';
-      link.target = '_blank'; // Abre en nueva pestaña si es necesario
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
       setIsDownloading(false);
     }, 2000);
   };
@@ -72,509 +74,286 @@ const App = () => {
         rel="stylesheet"
       />
       
-      <div 
-        className="min-vh-100"
-        style={{
-          background: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 25%, #60a5fa 50%, #93c5fd 75%, #dbeafe 100%)'
-        }}
-      >
+      <style>
+        {`
+          .gradient-bg {
+            background: linear-gradient(135deg, #1a202c 0%, #2c5aa0 50%, #1a202c 100%);
+            min-height: 100vh;
+          }
+          
+          .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+          }
+          
+          .icon-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #2563eb, #60a5fa);
+            color: white;
+          }
+          
+          .hover-transform:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+          }
+          
+          .btn-download {
+            background: linear-gradient(45deg, #2563eb, #3b82f6);
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+          }
+          
+          .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+          }
+          
+          .objective-card {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(30, 58, 138, 0.15));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+          }
+          
+          .objective-card:hover {
+            transform: translateY(-5px);
+          }
+          
+          .list-dot {
+            width: 8px;
+            height: 8px;
+            background: #60a5fa;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 15px;
+          }
+        `}
+      </style>
+
+      <div className="gradient-bg">
         {/* Header */}
-        <nav className="navbar navbar-expand-lg navbar-dark py-4">
-          <div className="container">
-            <div className="navbar-brand d-flex align-items-center">
-              <img 
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShdCNoJzxfIu28gWJwjfk0-dpR8jV7bb402Q&s" 
-                alt="UTEQ Logo" 
-                width="48"
-                height="48"
-                className="rounded me-3"
-              />
-              <div>
-                <h4 className="mb-0 text-white">UTEQ Map</h4>
-                <small className="text-cyan-300" style={{color: '#a5f3fc'}}>Campus Interactivo</small>
+        <nav className="glass-effect">
+          <div className="container py-3">
+            <div className="d-flex justify-content-between align-items-center">
+              <div className="d-flex align-items-center">
+                <img 
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShdCNoJzxfIu28gWJwjfk0-dpR8jV7bb402Q&s" 
+                  alt="UTEQ Logo" 
+                  width="48" height="48"
+                  className="rounded me-3"
+                />
+                <div>
+                  <h1 className="h4 text-white mb-0">UTEQ Map</h1>
+                  <small className="text-info">Campus Interactivo</small>
+                </div>
               </div>
-            </div>
-            
-            <div className="navbar-nav d-none d-md-flex flex-row">
-              <a className="nav-link text-white me-4 fw-semibold" href="#features">Características</a>
-              <a className="nav-link text-white me-4 fw-semibold" href="#about">Proyecto</a>
-              <a className="nav-link text-white fw-semibold" href="#download">Descargar</a>
+              <div className="d-none d-md-flex">
+                <a href="#intro" className="nav-link text-white me-4">Introducción</a>
+                <a href="#objectives" className="nav-link text-white me-4">Objetivos</a>
+                <a href="#download" className="nav-link text-white">Descargar</a>
+              </div>
             </div>
           </div>
         </nav>
 
         {/* Hero Section */}
-        <div className="container py-5">
+        <section className="container py-5">
           <div className="row justify-content-center text-center py-5">
             <div className="col-lg-10">
-              <h1 className="display-2 fw-bold text-white mb-4">
-                Navega por la
-                <span style={{color: '#60a5fa'}}> UTEQ</span>
-                <br />sin perderte
-              </h1>
-              <p className="lead text-white mb-5 fs-4" style={{opacity: '0.95'}}>
-                Mapa interactivo del campus que facilita la ubicación de espacios y eventos dentro de la universidad. 
-                Con navegación en tiempo real, geolocalización y gestión de eventos para estudiantes, visitantes y personal.
+              <h2 className="display-2 fw-bold text-white mb-4">
+                Navega por la <span className="text-info">UTEQ</span>
+              </h2>
+              <p className="lead text-white mb-5 fs-4 opacity-75">
+                Sistema de navegación interactivo para el campus universitario que optimiza 
+                la experiencia de visitantes y personal académico.
               </p>
               
-              {/* Download Button */}
               <button
                 onClick={handleDownload}
                 disabled={isDownloading}
-                className="btn btn-lg px-5 py-3 mb-4"
-                style={{
-                  backgroundColor: '#60a5fa',
-                  borderColor: '#60a5fa',
-                  color: '#1e3a8a',
-                  borderRadius: '50px',
-                  fontSize: '1.2rem',
-                  fontWeight: '600',
-                  transition: 'all 0.3s ease',
-                  transform: isDownloading ? 'scale(0.95)' : 'scale(1)',
-                  boxShadow: '0 8px 25px rgba(96, 165, 250, 0.4)'
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = '#3b82f6';
-                  e.target.style.transform = 'translateY(-2px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = '#60a5fa';
-                  e.target.style.transform = 'translateY(0)';
-                }}
+                className="btn btn-download text-white btn-lg"
               >
-                <Download size={24} />
+                <Download size={20} />
                 <span className="ms-2">
                   {isDownloading ? 'Descargando...' : 'Descargar UTEQ Map'}
                 </span>
               </button>
               
-              <div className="text-white" style={{opacity: '0.8'}}>
-                <small>
-                  Compatible con Android 7.0+ • Tamaño: 25 MB • Gratis • UTEQ Oficial
-                </small>
-              </div>
+              <p className="text-info mt-4">
+                <small>Android 7.0+ • 55 MB • Gratis</small>
+              </p>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Features Section */}
-        <div id="features" className="container py-5">
-          <div className="row">
-            <div className="col-12 text-center mb-5">
-              <h2 className="display-4 fw-bold text-white mb-4">
-                Funcionalidades Principales
-              </h2>
-            </div>
-          </div>
-          
-          {/* Main Features Grid */}
-          <div className="row g-4 mb-5">
-            <div className="col-md-6 col-lg-3">
-              <div 
-                className="card h-100 border-0 shadow-lg"
-                style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                  backdropFilter: 'blur(10px)',
-                  transition: 'transform 0.3s ease',
-                  border: '1px solid rgba(96, 165, 250, 0.3)'
-                }}
-                onMouseEnter={(e) => e.target.style.transform = 'translateY(-10px)'}
-                onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
-              >
-                <div className="card-body text-center p-4">
-                  <div 
-                    className="d-flex justify-content-center align-items-center mb-3 mx-auto text-white"
-                    style={{
-                      width: '60px',
-                      height: '60px',
-                      borderRadius: '50%',
-                      background: 'linear-gradient(45deg, #1e3a8a, #3b82f6)'
-                    }}
-                  >
+        
+
+        <section id="intro" className="container py-5">
+          <div className="glass-effect rounded p-5">
+            <div className="row">
+              <div className="col-12 mb-4">
+                <div className="d-flex align-items-center mb-3">
+                  <div className="icon-circle me-3">
                     <Map size={28} />
                   </div>
-                  <h5 className="card-title mb-3" style={{color: '#1e3a8a'}}>Mapa Interactivo</h5>
-                  <p className="card-text" style={{color: '#374151'}}>
-                    Zoom, arrastre y selección de puntos para explorar todo el campus de la UTEQ.
-                  </p>
+                  <h3 className="h2 text-white mb-0">Introducción</h3>
                 </div>
-              </div>
-            </div>
-
-            <div className="col-md-6 col-lg-3">
-              <div 
-                className="card h-100 border-0 shadow-lg"
-                style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                  backdropFilter: 'blur(10px)',
-                  transition: 'transform 0.3s ease',
-                  border: '1px solid rgba(96, 165, 250, 0.3)'
-                }}
-                onMouseEnter={(e) => e.target.style.transform = 'translateY(-10px)'}
-                onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
-              >
-                <div className="card-body text-center p-4">
-                  <div 
-                    className="d-flex justify-content-center align-items-center mb-3 mx-auto text-white"
-                    style={{
-                      width: '60px',
-                      height: '60px',
-                      borderRadius: '50%',
-                      background: 'linear-gradient(45deg, #2563eb, #60a5fa)'
-                    }}
-                  >
-                    <Navigation size={28} />
-                  </div>
-                  <h5 className="card-title mb-3" style={{color: '#1e3a8a'}}>Navegación GPS</h5>
-                  <p className="card-text" style={{color: '#374151'}}>
-                    Rutas desde tu ubicación actual hacia cualquier edificio o instalación del campus.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-6 col-lg-3">
-              <div 
-                className="card h-100 border-0 shadow-lg"
-                style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                  backdropFilter: 'blur(10px)',
-                  transition: 'transform 0.3s ease',
-                  border: '1px solid rgba(96, 165, 250, 0.3)'
-                }}
-                onMouseEnter={(e) => e.target.style.transform = 'translateY(-10px)'}
-                onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
-              >
-                <div className="card-body text-center p-4">
-                  <div 
-                    className="d-flex justify-content-center align-items-center mb-3 mx-auto text-white"
-                    style={{
-                      width: '60px',
-                      height: '60px',
-                      borderRadius: '50%',
-                      background: 'linear-gradient(45deg, #1d4ed8, #93c5fd)'
-                    }}
-                  >
-                    <Calendar size={28} />
-                  </div>
-                  <h5 className="card-title mb-3" style={{color: '#1e3a8a'}}>Gestión de Eventos</h5>
-                  <p className="card-text" style={{color: '#374151'}}>
-                    Visualiza eventos académicos, culturales y administrativos directamente en el mapa.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-6 col-lg-3">
-              <div 
-                className="card h-100 border-0 shadow-lg"
-                style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                  backdropFilter: 'blur(10px)',
-                  transition: 'transform 0.3s ease',
-                  border: '1px solid rgba(96, 165, 250, 0.3)'
-                }}
-                onMouseEnter={(e) => e.target.style.transform = 'translateY(-10px)'}
-                onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
-              >
-                <div className="card-body text-center p-4">
-                  <div 
-                    className="d-flex justify-content-center align-items-center mb-3 mx-auto text-white"
-                    style={{
-                      width: '60px',
-                      height: '60px',
-                      borderRadius: '50%',
-                      background: 'linear-gradient(45deg, #1e40af, #60a5fa)'
-                    }}
-                  >
-                    <Settings size={28} />
-                  </div>
-                  <h5 className="card-title mb-3" style={{color: '#1e3a8a'}}>Panel Administrativo</h5>
-                  <p className="card-text" style={{color: '#374151'}}>
-                    Gestión de departamentos, personal, eventos y generación de reportes en PDF y Excel.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Additional Features */}
-          <div className="row g-4 mt-4">
-            <div className="col-md-4">
-              <div className="text-center">
-                <div 
-                  className="d-flex justify-content-center align-items-center mb-3 mx-auto"
-                  style={{
-                    width: '70px',
-                    height: '70px',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(45deg, #1e3a8a, #60a5fa)',
-                    fontSize: '2rem'
-                  }}
-                >
-                  🔍
-                </div>
-                <h4 className="text-white mb-3">Búsqueda Inteligente</h4>
-                <p className="text-white" style={{opacity: '0.9'}}>
-                  Encuentra rápidamente divisiones, biblioteca, laboratorios y cualquier instalación del campus.
-                </p>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="text-center">
-                <div 
-                  className="d-flex justify-content-center align-items-center mb-3 mx-auto"
-                  style={{
-                    width: '70px',
-                    height: '70px',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(45deg, #2563eb, #93c5fd)',
-                    fontSize: '2rem'
-                  }}
-                >
-                  🛣️
-                </div>
-                <h4 className="text-white mb-3">Rutas Optimizadas</h4>
-                <p className="text-white" style={{opacity: '0.9'}}>
-                  Calcula automáticamente la ruta más rápida y eficiente hacia tu destino dentro del campus.
-                </p>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="text-center">
-                <div 
-                  className="d-flex justify-content-center align-items-center mb-3 mx-auto"
-                  style={{
-                    width: '70px',
-                    height: '70px',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(45deg, #1d4ed8, #dbeafe)',
-                    fontSize: '2rem'
-                  }}
-                >
-                  🛡️
-                </div>
-                <h4 className="text-white mb-3">Privacidad Garantizada</h4>
-                <p className="text-white" style={{opacity: '0.9'}}>
-                  Cumplimos con políticas de privacidad para proteger tu ubicación y datos personales.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* About Section */}
-        <div id="about" className="container py-5">
-          <div 
-            className="card border-0 shadow-lg p-5"
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.95)',
-              backdropFilter: 'blur(15px)',
-              border: '1px solid rgba(96, 165, 250, 0.3)'
-            }}
-          >
-            <div className="row">
-              <div className="col-12 text-center mb-5">
-                <h2 className="display-4 fw-bold" style={{color: '#1e3a8a'}}>
-                  Sobre el Proyecto UTEQ Map
-                </h2>
               </div>
             </div>
             
-            <div className="row g-5">
-              <div className="col-lg-6">
-                <h3 className="h2 mb-4" style={{color: '#2563eb'}}>Propósito y Justificación</h3>
-                <p className="fs-5 mb-4" style={{color: '#374151'}}>
-                  El propósito de este proyecto es desarrollar un mapa interactivo del campus de la UTEQ que facilite 
-                  la ubicación de espacios y eventos dentro de la universidad.
+            <div className="row">
+              <div className="col-lg-6 mb-4 mb-lg-0">
+                <p className="text-white fs-5 mb-4">
+                  El proyecto UTEQ Map surge como respuesta a la necesidad de modernizar 
+                  la experiencia de navegación dentro del campus universitario de la 
+                  Universidad Tecnológica de Querétaro.
                 </p>
-                <p style={{color: '#4b5563'}}>
-                  La herramienta busca resolver problemas comunes de desorientación, optimizar el tiempo de los usuarios 
-                  y modernizar la experiencia dentro del campus con tecnologías accesibles y útiles.
+                <p className="text-white-50">
+                  Esta herramienta digital integra tecnologías de geolocalización, mapas 
+                  interactivos y gestión de eventos para crear una plataforma unificada 
+                  que facilite la orientación y mejore la eficiencia en el campus.
                 </p>
               </div>
               
               <div className="col-lg-6">
-                <h3 className="h2 mb-4" style={{color: '#2563eb'}}>Objetivos del Proyecto</h3>
-                <ul className="list-unstyled" style={{color: '#374151'}}>
+                <div className="row g-3">
+                  <div className="col-6">
+                    <div className="glass-effect p-4 rounded hover-transform">
+                      <Navigation size={24} className="text-info mb-3" />
+                      <h6 className="text-white mb-2">Navegación GPS</h6>
+                      <small className="text-white-50">Rutas optimizadas en tiempo real</small>
+                    </div>
+                  </div>
+                  <div className="col-6">
+                    <div className="glass-effect p-4 rounded hover-transform">
+                      <Calendar size={24} className="text-info mb-3" />
+                      <h6 className="text-white mb-2">Gestión de Eventos</h6>
+                      <small className="text-white-50">Eventos académicos y culturales</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        
+
+        {/* Objetivos */}
+        <section id="objectives" className="container py-5">
+          <div className="text-center mb-5">
+            <h3 className="display-4 fw-bold text-white mb-3">Objetivos del Proyecto</h3>
+            <p className="text-white-50 fs-5">Metas claras para transformar la experiencia universitaria</p>
+          </div>
+
+          <div className="row g-4">
+            {/* Objetivo General */}
+            <div className="col-lg-6">
+              <div className="objective-card p-5 h-100">
+                <div className="d-flex align-items-center mb-4">
+                  <div className="icon-circle me-3">
+                    <Target size={28} />
+                  </div>
+                  <h4 className="h3 text-white mb-0">Objetivo General</h4>
+                </div>
+                <p className="text-white fs-5 mb-0">
+                  Desarrollar un sistema de navegación digital interactivo que facilite 
+                  la ubicación de espacios, servicios y eventos dentro del campus de la UTEQ, 
+                  mejorando significativamente la experiencia de orientación para toda la 
+                  comunidad universitaria.
+                </p>
+              </div>
+            </div>
+            
+
+            {/* Objetivos Específicos */}
+            <div className="col-lg-6">
+              <div className="objective-card p-5 h-100">
+                <div className="d-flex align-items-center mb-4">
+                  <div className="icon-circle me-3">
+                    <Users size={28} />
+                  </div>
+                  <h4 className="h3 text-white mb-0">Objetivos Específicos</h4>
+                </div>
+                <ul className="list-unstyled">
                   <li className="d-flex align-items-start mb-3">
-                    <span className="badge rounded-pill me-3 mt-1" style={{backgroundColor: '#60a5fa', color: '#1e3a8a'}}>✓</span>
-                    <span>Eliminar problemas de desorientación en el campus</span>
+                    <span className="list-dot mt-2"></span>
+                    <span className="text-white">Implementar geolocalización en tiempo real para navegación precisa</span>
                   </li>
                   <li className="d-flex align-items-start mb-3">
-                    <span className="badge rounded-pill me-3 mt-1" style={{backgroundColor: '#93c5fd', color: '#1e3a8a'}}>✓</span>
-                    <span>Optimizar el tiempo de desplazamiento de visitantes</span>
+                    <span className="list-dot mt-2"></span>
+                    <span className="text-white">Crear un sistema de gestión de eventos académicos y culturales</span>
                   </li>
                   <li className="d-flex align-items-start mb-3">
-                    <span className="badge rounded-pill me-3 mt-1" style={{backgroundColor: '#3b82f6', color: 'white'}}>✓</span>
-                    <span>Modernizar la experiencia universitaria</span>
+                    <span className="list-dot mt-2"></span>
+                    <span className="text-white">Desarrollar funcionalidades administrativas para personal autorizado</span>
                   </li>
-                  <li className="d-flex align-items-start mb-3">
-                    <span className="badge rounded-pill me-3 mt-1" style={{backgroundColor: '#2563eb', color: 'white'}}>✓</span>
-                    <span>Fomentar mayor participación en eventos</span>
+                  <li className="d-flex align-items-start">
+                    <span className="list-dot mt-2"></span>
+                    <span className="text-white">Garantizar accesibilidad universal y diseño responsivo</span>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Deliverables Section */}
-        <div className="container py-5">
-          <div 
-            className="card border-0 shadow-lg p-5"
-            style={{
-              background: 'rgba(255, 255, 255, 0.9)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(96, 165, 250, 0.3)'
-            }}
-          >
-            <div className="row">
-              <div className="col-12 text-center mb-5">
-                <h2 className="display-5 fw-bold" style={{color: '#1e3a8a'}}>Entregables del Proyecto</h2>
-              </div>
-            </div>
-            
-            <div className="row g-4">
-              <div className="col-md-6 col-lg-4">
-                <div className="card h-100" style={{backgroundColor: '#f8fafc', border: '2px solid #60a5fa'}}>
-                  <div className="card-body">
-                    <div className="fw-bold mb-2" style={{color: '#2563eb'}}>📱 Aplicación Móvil</div>
-                    <p className="card-text small" style={{color: '#4b5563'}}>
-                      Sitio móvil funcional con mapa interactivo de la UTEQ
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="col-md-6 col-lg-4">
-                <div className="card h-100" style={{backgroundColor: '#f8fafc', border: '2px solid #93c5fd'}}>
-                  <div className="card-body">
-                    <div className="fw-bold mb-2" style={{color: '#1d4ed8'}}>🔍 Módulo de Búsqueda</div>
-                    <p className="card-text small" style={{color: '#4b5563'}}>
-                      Sistema de búsqueda y selección de destinos específicos
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="col-md-6 col-lg-4">
-                <div className="card h-100" style={{backgroundColor: '#f8fafc', border: '2px solid #3b82f6'}}>
-                  <div className="card-body">
-                    <div className="fw-bold mb-2" style={{color: '#1e40af'}}>🗺️ Geolocalización</div>
-                    <p className="card-text small" style={{color: '#4b5563'}}>
-                      Sistema para trazar rutas desde la ubicación del usuario
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="col-md-6 col-lg-4">
-                <div className="card h-100" style={{backgroundColor: '#f8fafc', border: '2px solid #2563eb'}}>
-                  <div className="card-body">
-                    <div className="fw-bold mb-2" style={{color: '#1e3a8a'}}>⚙️ Panel Admin</div>
-                    <p className="card-text small" style={{color: '#4b5563'}}>
-                      Administración para registrar y mostrar eventos en el mapa
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="col-md-6 col-lg-4">
-                <div className="card h-100" style={{backgroundColor: '#f8fafc', border: '2px solid #1d4ed8'}}>
-                  <div className="card-body">
-                    <div className="fw-bold mb-2" style={{color: '#1e40af'}}>📱 Diseño Responsive</div>
-                    <p className="card-text small" style={{color: '#4b5563'}}>
-                      Interfaz intuitiva y adaptable a todas las pantallas
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="col-md-6 col-lg-4">
-                <div className="card h-100" style={{backgroundColor: '#f8fafc', border: '2px solid #60a5fa'}}>
-                  <div className="card-body">
-                    <div className="fw-bold mb-2" style={{color: '#2563eb'}}>📚 Documentación</div>
-                    <p className="card-text small" style={{color: '#4b5563'}}>
-                      Manual de uso y documentación técnica del sistema
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </section>
 
         {/* CTA Section */}
-        <div id="download" className="container py-5">
-          <div 
-            className="card border-0 shadow-lg p-5 text-center"
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.95)',
-              backdropFilter: 'blur(15px)',
-              border: '1px solid rgba(96, 165, 250, 0.3)'
-            }}
-          >
-            <h2 className="display-4 fw-bold mb-4" style={{color: '#1e3a8a'}}>
-              ¿Listo para explorar la UTEQ?
-            </h2>
-            <p className="fs-4 mb-5" style={{color: '#374151'}}>
-              Descarga UTEQ Map ahora y nunca más te pierdas en el campus. 
-              Navegación intuitiva, eventos en tiempo real y completamente gratis para toda la comunidad universitaria.
+        <section id="download" className="container py-5">
+          <div className="objective-card p-5 text-center">
+            <h3 className="h2 fw-bold text-white mb-4">¿Listo para explorar el campus?</h3>
+            <p className="text-white fs-5 mb-4 col-lg-8 mx-auto">
+              Únete a la nueva era de navegación universitaria. Descarga UTEQ Map 
+              y descubre lo fácil que puede ser encontrar tu camino.
             </p>
-            <button
-              onClick={handleDownload}
-              disabled={isDownloading}
-              className="btn btn-lg px-5 py-3 mb-3"
-              style={{
-                backgroundColor: '#1e3a8a',
-                borderColor: '#1e3a8a',
-                color: 'white',
-                borderRadius: '50px',
-                fontSize: '1.3rem',
-                fontWeight: '600',
-                boxShadow: '0 10px 30px rgba(30, 58, 138, 0.3)'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = '#1e40af';
-                e.target.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = '#1e3a8a';
-                e.target.style.transform = 'translateY(0)';
-              }}
-            >
-              <Download size={28} />
-              <span className="ms-2">
-                {isDownloading ? 'Preparando descarga...' : 'Descargar UTEQ Map'}
-              </span>
-            </button>
-            <div className="fw-semibold" style={{color: '#60a5fa'}}>
-              ✨ Aplicación oficial de la Universidad Tecnológica de Querétaro
-            </div>
-          </div>
-        </div>
-
-        {/* Footer */}
-        <footer className="container py-5 mt-5" style={{ borderTop: '1px solid rgba(255, 255, 255, 0.3)' }}>
-          <div className="row align-items-center">
-            <div className="col-md-6 d-flex align-items-center mb-3 mb-md-0">
-              <img 
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShdCNoJzxfIu28gWJwjfk0-dpR8jV7bb402Q&s" 
-                alt="UTEQ Logo" 
-                width="32"
-                height="32"
-                className="rounded me-3"
-              />
-              <div className="text-white" style={{opacity: '0.9'}}>
-                <div>&copy; 2025 UTEQ Map. Universidad Tecnológica de Querétaro.</div>
+            
+            <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center align-items-center">
+              <button
+                onClick={handleDownload}
+                disabled={isDownloading}
+                className="btn btn-download text-white btn-lg"
+              >
+                <Download size={20} />
+                <span className="ms-2">
+                  {isDownloading ? 'Descargando...' : 'Descargar para Android'}
+                </span>
+              </button>
+              <div className="text-info">
+                <div>Próximamente en iOS</div>
+                <small>Versión 1.0.0 • Última actualización: Agosto 2025</small>
               </div>
             </div>
-            <div className="col-md-6 text-md-end text-white" style={{opacity: '0.9'}}>
-              <div>Versión 1.0.0 • Última actualización: Agosto 2025</div>
-              <small className="d-block mt-1">Desarrollado para mejorar la experiencia universitaria</small>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="border-top border-secondary mt-5">
+          <div className="container py-4">
+            <div className="row align-items-center">
+              <div className="col-md-6 d-flex align-items-center mb-3 mb-md-0">
+                <img 
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShdCNoJzxfIu28gWJwjfk0-dpR8jV7bb402Q&s" 
+                  alt="UTEQ Logo" 
+                  width="32" height="32"
+                  className="rounded me-3"
+                />
+                <div className="text-white-50">
+                  <div>&copy; 2025 UTEQ Map - Universidad Tecnológica de Querétaro</div>
+                </div>
+              </div>
+              <div className="col-md-6 text-md-end text-white-50">
+                <small>Desarrollado para mejorar la experiencia universitaria</small>
+              </div>
             </div>
           </div>
         </footer>
